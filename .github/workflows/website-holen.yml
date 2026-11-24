@@ -1,0 +1,37 @@
+name: Website von Netlify übernehmen
+# Kopiert die fertige Seite (inkl. aller Fotos) einmalig von snpperformance.netlify.app ins Projekt.
+on:
+  push:
+    paths: ['.github/workflows/website-holen.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  holen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dateien laden
+        run: |
+          set -e
+          BASE=https://snpperformance.netlify.app
+          for f in index.html insta.js insta.css posts.json favicon.svg; do curl -fsSL "$BASE/$f" -o "$f"; done
+          # von Netlify eingefügtes Abzeichen-Skript entfernen
+          sed -i '/\.netlify\/scripts\/hud/d' index.html
+          mkdir -p img ig
+          for f in s3-sattel-scheibe-1600 carplay-detail-1600 jaguar-vorher-1600 jaguar-nachher-1600 s3-sattel-detail-800 ambiente-fond-800 carplay-detail-800 s3-seitlich-800 s3-alt-neu-800 s3-belaege-800 s3-montage-800 s3-scheiben-neu-800 s3-front-800 s3-kontrolle-800 s3-sattel-ausgebaut-800 diagnose-800 logo-instagram; do
+            curl -fsSL "$BASE/img/$f.jpg" -o "img/$f.jpg" || echo "fehlt img/$f"
+          done
+          for p in $(python3 -c "import json;[print(i) for x in json.load(open('posts.json')) for i in x['imgs']]"); do
+            curl -fsSL "$BASE/$p" -o "$p" || echo "fehlt $p"
+          done
+          echo "snpperformance.ch" > CNAME
+          touch .nojekyll
+          ls -R | head -50
+      - name: Speichern
+        run: |
+          git config user.name "snp-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Website mit allen Fotos von Netlify übernommen"
+          git push
