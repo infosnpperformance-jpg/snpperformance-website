@@ -1,0 +1,45 @@
+/* Story-Highlights, Lightbox, Galerie – Ergänzung zu index.html */
+.hl{display:flex;gap:22px;overflow-x:auto;padding:6px 2px 26px;margin-bottom:10px;scrollbar-width:none}
+.hl::-webkit-scrollbar{display:none}
+.hl button{flex:none;display:grid;justify-items:center;gap:10px;background:none;border:0;color:var(--ink);font:600 13px Inter,sans-serif;cursor:pointer;padding:0}
+.hl .ring{width:84px;height:84px;border-radius:50%;padding:3px;background:conic-gradient(from 210deg,var(--red),#ff8a00,#ffd166,var(--red2),var(--red));transition:transform .3s}
+.hl button:hover .ring{transform:scale(1.07) rotate(-4deg)}
+.hl .ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid var(--bg2);background:#111}
+.hl button.seen .ring{background:#3a3a40}
+
+#story{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.94);display:none;place-items:center;backdrop-filter:blur(10px)}
+#story.open{display:grid}
+#story .frame{position:relative;width:min(440px,100vw);height:min(780px,100svh);background:#000;overflow:hidden;border-radius:14px}
+@media(max-width:500px){#story .frame{border-radius:0}}
+#story .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:kenb 5s linear forwards}
+@keyframes kenb{from{transform:scale(1.02)}to{transform:scale(1.1)}}
+#story .bars{position:absolute;top:12px;left:12px;right:12px;display:flex;gap:4px;z-index:2}
+#story .bars i{flex:1;height:3px;background:rgba(255,255,255,.3);border-radius:2px;overflow:hidden}
+#story .bars i b{display:block;height:100%;width:0;background:#fff}
+#story .top{position:absolute;top:26px;left:14px;right:14px;display:flex;align-items:center;gap:10px;z-index:2;font-size:14px;font-weight:600;text-shadow:0 1px 6px #000}
+#story .top img{position:static;width:34px;height:34px;border-radius:50%;animation:none;border:1px solid rgba(255,255,255,.4)}
+#story .top span{color:rgba(255,255,255,.7);font-weight:400}
+#story .x{margin-left:auto;width:44px;height:44px;background:none;border:0;color:#fff;font-size:28px;cursor:pointer}
+#story .cap{position:absolute;left:0;right:0;bottom:0;padding:70px 18px 22px;background:linear-gradient(transparent,rgba(0,0,0,.85));z-index:2;font-size:15px;line-height:1.45}
+#story .cap a{display:inline-block;margin-top:10px;font-weight:700;color:#fff}
+#story .nav{position:absolute;top:80px;bottom:120px;width:40%;z-index:1;background:none;border:0;cursor:pointer}
+#story .nav.p{left:0}#story .nav.n{right:0}
+
+#lb{position:fixed;inset:0;z-index:300;background:rgba(6,6,7,.97);display:none;overflow:auto}
+#lb.open{display:block}
+#lb .in{max-width:1180px;margin:0 auto;padding:clamp(18px,4vw,48px) max(4vw,16px);display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:start}
+@media(max-width:860px){#lb .in{grid-template-columns:minmax(0,1fr)}}
+#lb .x{position:fixed;top:14px;right:16px;width:48px;height:48px;border:1px solid var(--line2);background:rgba(0,0,0,.6);color:#fff;font-size:24px;cursor:pointer;z-index:2}
+#lb .main{position:relative;aspect-ratio:4/5;background:#111;overflow:hidden}
+#lb .main img{width:100%;height:100%;object-fit:cover}
+#lb .main button{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:22px;cursor:pointer}
+#lb .main .p{left:12px}#lb .main .n{right:12px}
+#lb .main .cnt{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.6);padding:4px 10px;font-size:13px}
+#lb .thumbs{display:flex;gap:8px;overflow-x:auto;margin-top:10px;padding-bottom:6px}
+#lb .thumbs img{flex:none;width:72px;height:72px;object-fit:cover;opacity:.5;cursor:pointer;border:2px solid transparent}
+#lb .thumbs img.on{opacity:1;border-color:var(--red)}
+#lb .side .k{color:var(--red2);font:800 italic 13px var(--head);font-stretch:118%;text-transform:uppercase}
+#lb .side h3{font-size:clamp(26px,3vw,36px);font-style:italic;font-weight:850;font-stretch:120%;text-transform:uppercase;margin:8px 0 6px}
+#lb .side .d{color:var(--mute);font-size:14px}
+#lb .side p.t{white-space:pre-line;color:#cfcfd4;margin-top:18px;font-size:15px;line-height:1.6}
+#lb .side .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
