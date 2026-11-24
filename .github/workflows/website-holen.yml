@@ -18,6 +18,12 @@ jobs:
           for f in index.html insta.js insta.css posts.json favicon.svg; do curl -fsSL "$BASE/$f" -o "$f"; done
           # von Netlify eingefügtes Abzeichen-Skript entfernen
           sed -i '/\.netlify\/scripts\/hud/d' index.html
+          python3 - <<'PY'
+          import re
+          h = open('index.html', encoding='utf-8').read()
+          h = re.sub(r'<!--(?:(?!-->).)*?[Nn]etlify(?:(?!-->).)*?-->\s*', '', h, flags=re.S)
+          open('index.html', 'w', encoding='utf-8').write(h)
+          PY
           mkdir -p img ig
           for f in s3-sattel-scheibe-1600 carplay-detail-1600 jaguar-vorher-1600 jaguar-nachher-1600 s3-sattel-detail-800 ambiente-fond-800 carplay-detail-800 s3-seitlich-800 s3-alt-neu-800 s3-belaege-800 s3-montage-800 s3-scheiben-neu-800 s3-front-800 s3-kontrolle-800 s3-sattel-ausgebaut-800 diagnose-800 logo-instagram; do
             curl -fsSL "$BASE/img/$f.jpg" -o "img/$f.jpg" || echo "fehlt img/$f"
